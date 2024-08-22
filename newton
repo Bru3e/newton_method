@@ -1,0 +1,27 @@
+def newton_method(firstprime, secondprime, x0, tolerance, max_iteration):
+    x = x0
+    diff = tolerance  
+    iteration = 0     
+    
+    while diff >= tolerance and iteration < max_iteration:
+        px = firstprime(x)
+        spx = secondprime(x)
+        if spx == 0:
+            raise ValueError('Zero derivative')
+        x_new = x - px / spx
+        diff = abs(x_new - x)
+        x = x_new
+        iteration += 1    
+    return x
+
+def f(x):
+    return x**4 + 3*x**2
+
+def fprime(x):
+    return (f(x+10e-7)-f(x))/10e-7
+    
+def sprime(x):
+    return (fprime(x+10e-7)-fprime(x))/10e-7
+
+result = newton_method(fprime, sprime, 2, 10e-5, 1000)
+result
